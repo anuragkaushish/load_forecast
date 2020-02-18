@@ -13,12 +13,12 @@ os.environ['TZ'] = 'Asia/Calcutta'
 import xgboost as xg
 #from xgboost import XGBRegressor
 from sqlalchemy import create_engine
-#engine = create_engine('mysql+pymysql://manish:manish123@vps1.climate-connect.com:3306/m_ipt_temp', echo=False)
-engine = create_engine('mysql+pymysql://spider:IPTdata123$@35.154.164.151:3306/IndiaPowerTrading', echo=False)
+#engine = create_engine('mysql+pymysql://*****:*****123@vps1.*********.com:3306/m_ipt_temp', echo=False)
+engine = create_engine('mysql+pymysql://spider:IPTdata123$@**********:3306/IndiaPowerTrading', echo=False)
 
 ###for weather forecast
 def weather_loader(state_id,s_date):
-    db_connection = pymysql.connect(host="vps6.climate-connect.com",user="Ashray",password="skyisthelimit",db="Weather")
+    db_connection = pymysql.connect(host="vps6.***********.com",user="*****",password="**********",db="Weather")
     SQL1 = "SELECT * FROM w_city WHERE state = '" +state_id+"'"    
     df = pd.read_sql(SQL1, con=db_connection)
     SQL = "SELECT * FROM Weather_historical_india_all WHERE source ='FIO' AND city = '" +df['city'].iloc[0]+"' AND date>='"+str(s_date)+"'"    
@@ -46,8 +46,8 @@ def weather_loader(state_id,s_date):
 
 ###for load
 def load(state_id,region):
-#    db_connection = pymysql.connect(host="vps1.climate-connect.com",user="manish",password="manish123",db="m_ipt_temp")
-    db_connection = pymysql.connect(host="35.154.164.151",user="spider",password="IPTdata123$",db="IndiaPowerTrading")
+#    db_connection = pymysql.connect(host="vps1.*******.com",user="*******",password="*********",db="m_ipt_temp")
+    db_connection = pymysql.connect(host="35.154.164.151",user="*******",password="**********",db="IndiaPowerTrading")
     if region in ['N1','N2','N3']:
         SQL= "SELECT site_time as datetime, load_value as demand FROM northern_region_state WHERE state = '" +state_id+ "' ORDER BY datetime"
         ddm1 = pd.read_sql(SQL, con=db_connection)
@@ -106,7 +106,7 @@ def load(state_id,region):
     return(ddm1)
 
 def state_names():
-    db_connection = pymysql.connect(host="vps6.climate-connect.com",user="Ashray",password="skyisthelimit",db="Weather")
+    db_connection = pymysql.connect(host="vps6.**********.com",user="********",password="***********",db="Weather")
     SQL1 = "SELECT state, region,regionId FROM `w_city` WHERE region in ('N1','N2','N3','W1','W2','W3')"  
     states= pd.read_sql(SQL1, con=db_connection)
     db_connection.close()
